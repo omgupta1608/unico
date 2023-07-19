@@ -1,6 +1,7 @@
 # unico
 A simple unit conversion tool written in Rust.
 
+## Installation
 
 ## Usage
 (add ss in between steps)
