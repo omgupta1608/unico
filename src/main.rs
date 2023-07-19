@@ -30,7 +30,7 @@ fn main() -> io::Result<()>{
     // print!("{}", pattern)
     let mut a = String::new();
     let stdin = io::stdin();
-    stdin.read_line(&mut a);
+    let _ = stdin.read_line(&mut a);
     print!("{}", a);
     Ok(())
 }
