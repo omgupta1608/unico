@@ -3,27 +3,7 @@
 use std::io;
 use std::collections::HashMap;
 use std::process;
-
-enum ConversionType {
-    LENGTH,
-    MASS,
-}
-
-enum LengthType {
-    MM,
-    CM,
-    M,
-    KM,
-    MILE,
-    YARD,
-    INCH,
-    FOOT,
-}
-
-struct Conversion {
-    val: f32,
-    c_type: ConversionType,
-}
+use std::ptr;
 
 const CONVERTION_TYPES: &'static [&'static str] = &["Length", "Mass"];
 
@@ -33,19 +13,81 @@ const LENGTH_TYPES: &'static [&'static str] =
 const MASS_TYPES: &'static [&'static str] = &["KG", "G", "MG", "POUND", "OUNCE"];
 
 fn convert_length(_val: f32) -> f32 {
+
+    println!("From? :");
+    for i in 0..LENGTH_TYPES.len() {
+        match LENGTH_TYPES.get(i) {
+            Some(val) => println!("{}. {}", i + 1, val),
+            None => exit_on_error("Something went wrong"),
+        }
+    }
+
+    let mut from_choice = String::new();
+    let stdin = io::stdin();
+    let _ = stdin.read_line(&mut from_choice);
+    from_choice = from_choice.trim().to_string();
+
+    println!("To? :");
+    for i in 0..LENGTH_TYPES.len() {
+        match LENGTH_TYPES.get(i) {
+            Some(val) => println!("{}. {}", i + 1, val),
+            None => exit_on_error("Something went wrong"),
+        }
+    }
+
+    let mut to_choice = String::new();
+    let stdin = io::stdin();
+    let _ = stdin.read_line(&mut to_choice);
+    to_choice = to_choice.trim().to_string();
+
+    println!("From {} to {}", from_choice, to_choice);
+    return 1.1;
+}
+
+fn convert_mass(_val: f32) -> f32 {
+    println!("From? :");
+    for i in 0..MASS_TYPES.len() {
+        match MASS_TYPES.get(i) {
+            Some(val) => println!("{}. {}", i + 1, val),
+            None => exit_on_error("Something went wrong"),
+        }
+    }
+
+    let mut from_choice = String::new();
+    let stdin = io::stdin();
+    let _ = stdin.read_line(&mut from_choice);
+    from_choice = from_choice.trim().to_string();
+
+    println!("To? :");
+    for i in 0..MASS_TYPES.len() {
+        match MASS_TYPES.get(i) {
+            Some(val) => println!("{}. {}", i + 1, val),
+            None => exit_on_error("Something went wrong"),
+        }
+    }
+
+    let mut to_choice = String::new();
+    let stdin = io::stdin();
+    let _ = stdin.read_line(&mut to_choice);
+    to_choice = to_choice.trim().to_string();
+
+    println!("From {} to {}", from_choice, to_choice);
     return 1.1;
 }
 
 fn converter_factory(conversion_type: &str) -> impl Fn(f32) -> f32 {
+    println!("{}", conversion_type);
     match conversion_type {
-        "Length" => return convert_length,
-        "Mass" => print!("mass"),
-        &_ => (),
+        "Length" => convert_length,
+        "Mass" => convert_mass,
+        &_ => {
+            println!("Invalid choice. Defaulting to Length");
+            convert_length
+        },
     }
-    return convert_length;
 }
 
-fn ExitOnError(msg: &str) {
+fn exit_on_error(msg: &str) {
     println!("Error: {}", msg);
     process::exit(1)
 }
@@ -62,10 +104,10 @@ fn main() -> io::Result<()> {
     for i in 0..conversion_types.len() {
         match conversion_types.get(i) {
             Some(val) => println!("{}. {}", i + 1, val),
-            None => ExitOnError(""),
+            None => exit_on_error("Something went wrong"),
         }
     }
-    
+
     let mut c_choice = String::new();
     let stdin = io::stdin();
     let _ = stdin.read_line(&mut c_choice);
@@ -73,11 +115,11 @@ fn main() -> io::Result<()> {
     let mut i_c_choice = -1; 
     match c_choice.trim().parse::<i32>() {
         Ok(val) => i_c_choice = val,
-        Err(..) => ExitOnError("Invalid Choice"),
+        Err(..) => exit_on_error("Invalid Choice"),
     }
 
     if i_c_choice > conversion_types.len() as i32 {
-        ExitOnError("Invalid Choice")
+        exit_on_error("Invalid Choice")
     }
 
     let mut c_conv_f: &str = "";
@@ -86,9 +128,8 @@ fn main() -> io::Result<()> {
         None => ()
     }
     
-    print!("Converting {}", c_conv_f);
+    println!("Converting {}...", c_conv_f);
     converter_factory(c_conv_f)(f_val);
     
-
     Ok(())
 }
