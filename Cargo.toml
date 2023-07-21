@@ -1,6 +1,6 @@
 [package]
 name = "unico"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Om Gupta <omgupta1608@gmail.com>"]
 description="A simple unit conversion cli tool"
 keywords=["unit", "conversion", "cli"]
