@@ -8,15 +8,15 @@ mod calc;
 
 const CONVERSION_TYPES: [&str; 2] = ["Length", "Mass"];
 
-const LENGTH_TYPES: [&str; 8] = ["MM", "CM", "M", "KM", "MILE", "YARD", "INCH", "FOOT"];
+const LENGTH_TYPES: [&str; 4] = ["MM", "CM", "M", "KM"];
 
-const MASS_TYPES: [&str; 5] = ["KG", "G", "MG", "POUND", "OUNCE"];
+const MASS_TYPES: [&str; 3] = ["KG", "G", "MG"];
 
 fn parse_from_to<'a>(types: &'a [&'a str]) -> (&'a str, &'a str) {
     println!("From? :");
     for i in 0..types.len() {
         match types.get(i) {
-            Some(val) => println!("{}. {}", i + 1, val),
+            Some(val) => println!("{}. {}", i + 1, val.to_lowercase()),
             None => exit_on_error("Something went wrong"),
         }
     }
@@ -41,7 +41,7 @@ fn parse_from_to<'a>(types: &'a [&'a str]) -> (&'a str, &'a str) {
     println!("To? :");
     for i in 0..types.len() {
         match types.get(i) {
-            Some(val) => println!("{}. {}", i + 1, val),
+            Some(val) => println!("{}. {}", i + 1, val.to_lowercase()),
             None => exit_on_error("Something went wrong"),
         }
     }
@@ -66,23 +66,19 @@ fn parse_from_to<'a>(types: &'a [&'a str]) -> (&'a str, &'a str) {
     (actual_from, actual_to)
 }
 
-fn convert_length(_val: f32) -> f32 {
+fn convert_length(_val: f32)  {
     let (from, to) = parse_from_to(&LENGTH_TYPES);
-
-    println!("From {}{} to {}", _val, from, to);
-    calc::calculate_conversion();
-    return 1.1;
+    let res = calc::calculate_conversion(&"Length", _val, from, to);
+    println!("Result: {} {}", res, to.to_lowercase())
 }
 
-fn convert_mass(_val: f32) -> f32 {
+fn convert_mass(_val: f32) {
     let (from, to) = parse_from_to(&MASS_TYPES);
-
-    println!("From {}{} to {}", _val, from, to);
-    calc::calculate_conversion();
-    return 1.1;
+    let res = calc::calculate_conversion(&"Mass", _val, from, to);
+    println!("Result: {} {}", res, to.to_lowercase())
 }
 
-fn converter_factory(conversion_type: &str) -> impl Fn(f32) -> f32 {
+fn converter_factory(conversion_type: &str) -> impl Fn(f32) {
     println!("{}", conversion_type);
     match conversion_type {
         "Length" => convert_length,
@@ -127,8 +123,7 @@ fn main() -> io::Result<()> {
 
     let mut c_conv_f: &str = CONVERSION_TYPES[(i_c_choice - 1) as usize];
 
-    println!("Converting {}...", c_conv_f);
+    println!("Converting...",);
     converter_factory(c_conv_f)(f_val);
-
     Ok(())
 }
