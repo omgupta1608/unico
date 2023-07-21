@@ -4,7 +4,6 @@ A simple unit conversion tool written in Rust.
 ## Installation
 
 ## Usage
-(add ss in between steps)
 - Run `unico <value>`
 - Select the type of conversion
 - Select `from` unit
