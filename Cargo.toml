@@ -1,6 +1,13 @@
 [package]
 name = "unico"
 version = "1.0.0"
+authors = ["Om Gupta <omgupta1608@gmail.com>"]
+description="A simple unit conversion cli tool"
+keywords=["unit", "conversion", "cli"]
+categories = ["command-line-interface"]
+repository="https://github.com/omgupta1608/unico"
+license="MIT"
+readme="README.md"
 edition = "2021"
 exclude = [
     "assets/*",
